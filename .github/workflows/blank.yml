@@ -1,0 +1,37 @@
+# .github/workflows/ci-and-label.yml
+name: CI and Label Issues
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  issues:
+    types: [ "opened" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'issues' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run a one-line script
+        run: echo "Hello, world!"
+
+      - name: Run a multi-line script
+        run: |
+          echo "Add other actions to build,"
+          echo "test, and deploy your project."
+
+  add-test-label:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'issues' }}
+    steps:
+      - name: Add “test” label to new issues
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            test
