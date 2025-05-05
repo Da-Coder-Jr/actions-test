@@ -1,0 +1,22 @@
+name: MallaAI Assistant Bot
+
+# This workflow runs the MallaAI bot to respond to GitHub events
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened, synchronize]
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+
+jobs:
+  malla:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Run MallaAI Bot
+        uses: Da-Coder-Jr/MallaAI@main
